@@ -1,5 +1,10 @@
 const mongoose = require("mongoose");
 
+// filename
+// filePath
+// fileType
+// filesize
+
 const userSchema = mongoose.Schema({
   name: {
     type: String,
@@ -13,16 +18,35 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  dishname: {
+  Bookname: {
     type: String,
     required: true,
   },
 
-  dish: {
+  Book: {
     type: String,
     required: true,
   },
- 
+  Authername: {
+    type: String,
+    required: true,
+  },
+  filename: {
+    type: String,
+    required: true,
+  },
+  filePath: {
+    type: String,
+    required: true,
+  },
+  fileType: {
+    type: String,
+    required: true,
+  },
+  filesize: {
+    type: String,
+    required: true,
+  },
 });
 const USER = mongoose.model("USER", userSchema);
 module.exports = USER;

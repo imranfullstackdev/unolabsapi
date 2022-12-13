@@ -9,6 +9,6 @@ package used
     "nodemon": "^2.0.20"
 
 
-    i used multer to save the images
-    images are stored in public/images folder
+    i used multer to save the pdf
+    pdf are stored in public/pdf folder
     

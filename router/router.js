@@ -10,7 +10,7 @@ const path = require("path");
 // name;
 // email;
 // password;
-// dishname,dish;
+// Bookname,Book;
 
 // ! USE OF MULTER
 var storage = multer.diskStorage({
@@ -18,11 +18,8 @@ var storage = multer.diskStorage({
     callBack(null, "./public/images"); // './public/images/' directory name where save the file
   },
   filename: (req, file, callBack) => {
-    console.log(file,"file")
-    callBack(
-      null,
-      file.fieldname + path.extname(file.originalname)
-    );
+    console.log(file, "file");
+    callBack(null, file.originalname);
   },
 });
 
@@ -34,16 +31,21 @@ console.log((storage.filename, "fileee"));
 router.use("/uploads", express.static("./public/images"));
 
 router.post("/addUser", upload.single("file"), async (req, res) => {
+  console.log(req, "reqqqqqq");
   console.log(req.body);
   console.log(req.file, "file");
-  const { name, email, password, dishname, dish } = req.body;
-  if (!name || !email || !password || !dishname || !dish) {
+  const { name, email, password, Bookname, Book, Authername } = req.body;
+  const filename = req.file.originalname;
+  const filePath = req.file.path;
+  const fileType = req.file.mimetype;
+  const filesize = req.file.size;
+  if (!name || !email || !password || !Bookname || !Book || !Authername) {
     res.status(403).send({ ERR: "Please Fill All The Data frm backend" });
   }
   const aUser = await USER.findOne({ email });
   if (aUser) {
     res.status(400).send({ err: "USER ALREADY EXIST" });
-  } else {  
+  } else {
     // hashing the password
     const salt = 10;
     const hassPassword = await bcrypt.hash(password, salt);
@@ -52,8 +54,13 @@ router.post("/addUser", upload.single("file"), async (req, res) => {
       name,
       email,
       password: hassPassword,
-      dishname,
-      dish,
+      Bookname,
+      Book,
+      Authername,
+      filename,
+      filePath,
+      fileType,
+      filesize,
     });
     user.save();
     res.send({ user });
@@ -98,7 +105,7 @@ router.put("/EditUser/:id", async (req, res) => {
     validator: true,
     upsert: true,
   });
-  res.send( {mess:"edited Sucessfully"} );
+  res.send({ mess: "edited Sucessfully" });
 });
 
 // DELETE USER
